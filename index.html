@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PetCare Support</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:wght@400;500;600&display=swap">
+  <style>
+    /* ── Tokens ── */
+    :root {
+      --bg:          #F5FAF7;
+      --bg-card:     #FFFFFF;
+      --text:        #111C17;
+      --text-mute:   #4D6B5A;
+      --accent:      #10B981;
+      --accent-pale: #D1FAE5;
+      --border:      #E0EDE8;
+      --nav-bg:      rgba(245,250,247,0.88);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg:          #0D1813;
+        --bg-card:     #162318;
+        --text:        #E8F5EF;
+        --text-mute:   #7BAE93;
+        --accent:      #34D399;
+        --accent-pale: #052E16;
+        --border:      #1E3328;
+        --nav-bg:      rgba(13,24,19,0.88);
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg:          #0D1813;
+      --bg-card:     #162318;
+      --text:        #E8F5EF;
+      --text-mute:   #7BAE93;
+      --accent:      #34D399;
+      --accent-pale: #052E16;
+      --border:      #1E3328;
+      --nav-bg:      rgba(13,24,19,0.88);
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ── */
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── Sticky Nav ── */
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-brand {
+      font-family: 'Fraunces', Georgia, serif;
+      font-optical-sizing: auto;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      margin-right: auto;
+    }
+
+    .nav-paw {
+      color: var(--accent);
+      margin-right: 4px;
+    }
+
+    .nav-link {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-mute);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      transition: background 0.15s, color 0.15s;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus-visible {
+      background: var(--accent-pale);
+      color: var(--accent);
+      outline: none;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 64px 0 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-optical-sizing: auto;
+      font-size: clamp(40px, 8vw, 64px);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-wrap: balance;
+      margin-bottom: 20px;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      color: var(--text-mute);
+      max-width: 480px;
+      line-height: 1.6;
+    }
+
+    /* ── Sections ── */
+    .section {
+      padding: 56px 0 0;
+    }
+
+    .section + .section {
+      border-top: 1px solid var(--border);
+      margin-top: 56px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-optical-sizing: auto;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-wrap: balance;
+      margin-bottom: 24px;
+    }
+
+    /* ── Cards ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .card-icon {
+      font-size: 22px;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .card-body {
+      font-size: 13px;
+      color: var(--text-mute);
+      line-height: 1.55;
+    }
+
+    /* ── Contact block ── */
+    .contact-block {
+      background: var(--accent-pale);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .contact-dot {
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      border-radius: 10px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .contact-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .contact-value {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .contact-hint {
+      font-size: 13px;
+      color: var(--text-mute);
+      margin-top: 2px;
+    }
+
+    /* ── Privacy prose ── */
+    .prose {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.75;
+    }
+
+    .prose h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-optical-sizing: auto;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      text-wrap: balance;
+      margin: 36px 0 10px;
+    }
+
+    .prose h3:first-child { margin-top: 0; }
+
+    .prose p { margin-bottom: 14px; }
+    .prose p:last-child { margin-bottom: 0; }
+
+    .prose ul {
+      margin: 0 0 14px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .prose li { padding-left: 4px; }
+
+    .prose a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .prose a:hover { opacity: 0.8; }
+
+    .meta-row {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .meta-item {
+      font-size: 12px;
+      color: var(--text-mute);
+      letter-spacing: 0.02em;
+    }
+
+    .meta-item strong {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 72px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .footer-brand {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 15px;
+      font-weight: 600;
+      font-style: italic;
+      color: var(--text-mute);
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--text-mute);
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 48px 0 36px; }
+      .section { padding-top: 40px; }
+      .section + .section { margin-top: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="nav-wrap" role="banner">
+  <nav class="nav-inner" aria-label="Site navigation">
+    <a href="#" class="nav-brand"><span class="nav-paw" aria-hidden="true">🐾</span>PetCare</a>
+    <a href="#support" class="nav-link">Support</a>
+    <a href="#privacy" class="nav-link">Privacy</a>
+  </nav>
+</div>
+
+<main class="page">
+
+  <!-- Hero -->
+  <header class="hero">
+    <p class="hero-eyebrow">PetCare App</p>
+    <h1 class="hero-title">We take care of your<br><em>pets &amp; your privacy.</em></h1>
+    <p class="hero-sub">PetCare helps you track your pet's health, set event reminders, and get AI-powered symptom analysis. Here's how we support you and protect your data.</p>
+  </header>
+
+  <!-- Support -->
+  <section class="section" id="support">
+    <p class="section-label">Support</p>
+    <h2 class="section-title">How can we help?</h2>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon" aria-hidden="true">🐶</span>
+        <div class="card-title">Adding a pet</div>
+        <div class="card-body">Tap the + button on the Pets tab. Fill in name, species, breed, and date of birth. You can add a photo from your library or take a new one.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon" aria-hidden="true">📅</span>
+        <div class="card-title">Events &amp; reminders</div>
+        <div class="card-body">Open a pet's profile and tap Add Event. Choose a category (vet visit, vaccine, medication…) and set a date. You'll receive a push notification as a reminder.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon" aria-hidden="true">🤖</span>
+        <div class="card-title">AI Symptom Checker</div>
+        <div class="card-body">Describe your pet's symptoms in plain language. The AI provides an initial assessment — always follow up with a licensed veterinarian for diagnosis.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon" aria-hidden="true">👑</span>
+        <div class="card-title">Premium subscription</div>
+        <div class="card-body">PetCare Premium unlocks unlimited pets, AI tools, PDF export, and vet reports. Manage or cancel your subscription any time in iOS Settings → Subscriptions.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon" aria-hidden="true">🔔</span>
+        <div class="card-title">Notifications not arriving</div>
+        <div class="card-body">Go to iOS Settings → PetCare → Notifications and verify that Allow Notifications is enabled. Make sure Background App Refresh is also on.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon" aria-hidden="true">🗑️</span>
+        <div class="card-title">Deleting your account</div>
+        <div class="card-body">Open the app → Profile → Delete Account. All your data is permanently removed from our servers within 30 days. This action cannot be undone.</div>
+      </div>
+    </div>
+
+    <div class="contact-block">
+      <div class="contact-dot" aria-hidden="true">✉️</div>
+      <div>
+        <div class="contact-label">Email support</div>
+        <div class="contact-value">yanuck00723@gmail.com</div>
+        <div class="contact-hint">We respond within 1–2 business days.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy Policy -->
+  <section class="section" id="privacy">
+    <p class="section-label">Legal</p>
+    <h2 class="section-title">Privacy Policy</h2>
+
+    <div class="prose">
+      <p>This Privacy Policy describes how Yan Silitskiy ("<strong>we</strong>", "<strong>us</strong>", or "<strong>our</strong>") collects, uses, and shares information when you use the <strong>PetCare</strong> mobile application ("the App"). By using PetCare you agree to the practices described here.</p>
+
+      <h3>Information we collect</h3>
+      <p>We collect the following categories of personal information:</p>
+      <ul>
+        <li><strong>Account information</strong> — your name and email address when you register or sign in with Google.</li>
+        <li><strong>Pet profiles</strong> — names, species, breeds, dates of birth, and any photos you upload for your pets.</li>
+        <li><strong>Health &amp; event data</strong> — veterinary visits, vaccinations, medications, weights, and other events you record.</li>
+        <li><strong>AI Symptom Checker inputs</strong> — symptom descriptions you type when using the AI analysis feature.</li>
+        <li><strong>Push notification token</strong> — a device token used solely to deliver reminders and alerts you request.</li>
+        <li><strong>Subscription status</strong> — whether your account has an active PetCare Premium subscription.</li>
+        <li><strong>Usage data</strong> — basic app usage information (feature accessed, errors encountered) to improve the service.</li>
+      </ul>
+      <p>We do <strong>not</strong> collect your precise location, contacts, microphone input, or any financial payment details.</p>
+
+      <h3>How we use your information</h3>
+      <ul>
+        <li>To create and maintain your account and sync your pet data across devices.</li>
+        <li>To send push notification reminders for events you have scheduled.</li>
+        <li>To provide AI-powered symptom analysis via our backend AI service.</li>
+        <li>To process and validate your in-app subscription through RevenueCat.</li>
+        <li>To diagnose technical issues and improve app reliability.</li>
+      </ul>
+      <p>We do <strong>not</strong> sell, rent, or share your personal information with third parties for advertising purposes.</p>
+
+      <h3>Third-party services</h3>
+      <p>PetCare uses the following third-party services, each of which has its own privacy policy:</p>
+      <ul>
+        <li><strong>RevenueCat</strong> — manages in-app purchases and subscriptions. RevenueCat receives your anonymous app user ID and subscription status. <a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener">revenuecat.com/privacy</a></li>
+        <li><strong>Expo (by Expo Technology, Inc.)</strong> — powers push notifications. Expo receives your device push token to route notifications. <a href="https://expo.dev/privacy" target="_blank" rel="noopener">expo.dev/privacy</a></li>
+        <li><strong>Apple Sign-In / Google Sign-In</strong> — if you choose social login, the respective platform provides us only with your name and email address.</li>
+      </ul>
+
+      <h3>Data storage &amp; security</h3>
+      <p>Your data is stored on secure servers. We use HTTPS for all data transmission and follow industry-standard practices to protect your information from unauthorized access, disclosure, or loss.</p>
+
+      <h3>Data retention &amp; deletion</h3>
+      <p>We retain your data for as long as your account is active. You can delete your account at any time from the app's Profile screen. Upon deletion, all personal data is permanently removed from our servers within 30 days, except where retention is required by law.</p>
+
+      <h3>Children's privacy</h3>
+      <p>PetCare is not directed at children under 13 years of age. We do not knowingly collect personal information from children. If you believe a child has provided us with personal data, please contact us and we will delete it promptly.</p>
+
+      <h3>Your rights</h3>
+      <p>Depending on your jurisdiction, you may have the right to access, correct, or delete the personal data we hold about you. To exercise any of these rights, contact us at <a href="mailto:yanuck00723@gmail.com">yanuck00723@gmail.com</a>.</p>
+
+      <h3>Changes to this policy</h3>
+      <p>We may update this Privacy Policy from time to time. When we make material changes, we will update the "Last updated" date below and, where appropriate, notify you through the app.</p>
+
+      <h3>Contact us</h3>
+      <p>If you have questions or concerns about this Privacy Policy, please contact:<br>
+      <strong>Yan Silitskiy</strong><br>
+      <a href="mailto:yanuck00723@gmail.com">yanuck00723@gmail.com</a></p>
+    </div>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Effective date:</strong> October 6, 2026</div>
+      <div class="meta-item"><strong>App:</strong> PetCare — Pet Health Tracker</div>
+      <div class="meta-item"><strong>Developer:</strong> Yan Silitskiy</div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="page footer" role="contentinfo">
+  <div class="footer-brand">PetCare</div>
+  <div class="footer-copy">© 2026 Yan Silitskiy. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
